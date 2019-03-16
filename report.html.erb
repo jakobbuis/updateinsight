@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UpdateInsight report</title>
+</head>
+<body>
+    <h1>UpdateInsight report</h1>
+    <p>Date: <%= Time.now %></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Composer</th>
+                <th>NPM</th>
+                <th>Vulnerabilities (total)</th>
+                <th>Vulnerabilities (high)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% results.each do |project, stats| %>
+                <tr>
+                    <td><%=  project %></td>
+                    <td><%=  stats[:composer] %></td>
+                    <td><%=  stats[:npm] %></td>
+                    <td><%=  stats[:total_vulnerabilities] %></td>
+                    <td><%=  stats[:high_vulnerabilities] %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</body>
+</html>

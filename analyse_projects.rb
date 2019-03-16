@@ -1,8 +1,11 @@
+require 'erb'
 require 'json'
 require 'tmpdir'
 
 # Read the configuration
 projects = JSON.parse(File.read('projects.json'))
+
+results = {}
 
 projects.each do |name, giturl|
 
@@ -26,10 +29,16 @@ projects.each do |name, giturl|
         total_issues = counts.values.reduce :+
         high_issues = counts['critical'] + counts['high']
 
-        # output results
-        puts "Results for #{name}:"
-        puts "* #{composer_outdated} composer packages out of date"
-        puts "* #{npm_outdated} npm packages out of date"
-        puts "* #{total_issues} known vulnerabilities (#{high_issues} high impact)"
+        # store results
+        results[name] = {
+            composer: composer_outdated,
+            npm: npm_outdated,
+            total_vulnerabilities: total_issues,
+            high_vulnerabilities: high_issues,
+        }
     end
 end
+
+# Render the report
+template = ERB.new(File.read('report.html.erb'))
+File.write 'report.html', template.result(binding)
