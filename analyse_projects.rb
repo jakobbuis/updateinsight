@@ -16,6 +16,7 @@ projects.each do |giturl|
 
         # Clone the project and install dependencies
         `(cd #{directory}; git clone #{giturl} .)`
+        `(cd #{directory}; git checkout master)`
         `(cd #{directory}; composer install)`
 
         # Run checks
