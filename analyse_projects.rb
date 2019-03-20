@@ -2,6 +2,8 @@ require 'erb'
 require 'json'
 require 'tmpdir'
 
+require_relative 'src/Analysers/Composer'
+
 # Read the configuration
 projects = JSON.parse(File.read('projects.json'))
 
@@ -17,12 +19,11 @@ projects.each do |giturl|
         `(cd #{directory}; composer install)`
 
         # Run checks
-        composer_outdated = `(cd #{directory}; composer outdated -D --no-ansi)`.lines.count
+        composer = Analysers::Composer.new directory
+        result = composer.analyse
 
         # store results
-        results[giturl] = {
-            composer: composer_outdated,
-        }
+        results[giturl] = composer.analyse
     end
 end
 
