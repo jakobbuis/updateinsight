@@ -7,7 +7,7 @@ projects = JSON.parse(File.read('projects.json'))
 
 results = {}
 
-projects.each do |name, giturl|
+projects.each do |giturl|
 
     # Create a temporary directory for us to use
     Dir.mktmpdir do |directory|
