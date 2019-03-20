@@ -21,8 +21,7 @@ projects.each do |project|
             `(composer install)`
 
             # Run checks
-            composer = Analysers::Composer.new directory
-            update_needed = composer.analyse
+            update_needed = Analysers::Composer.new.analyse
 
             jira.make_ticket!(project) if update_needed
         end

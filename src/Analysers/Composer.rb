@@ -1,10 +1,6 @@
 module Analysers
     class Composer
 
-        def initialize dir
-            @directory = dir
-        end
-
         def analyse
             # Parse composer outdated output
             packages = `composer outdated -D --no-ansi`.split("\n").map do |line|
