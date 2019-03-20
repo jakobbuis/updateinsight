@@ -3,29 +3,28 @@ require 'json'
 require 'tmpdir'
 
 require_relative 'src/Analysers/Composer'
+require_relative 'src/JIRA'
 
 # Read the configuration
 projects = JSON.parse(File.read('projects.json'))
 
-results = {}
+jira = JIRA.new
 
-projects.each do |giturl|
+projects.each do |project|
 
     # Create a temporary directory for us to use
     Dir.mktmpdir do |directory|
+        Dir.chdir directory do
+            # Clone the project and install dependencies
+            `(git clone #{project.git} .)`
+            `(git checkout master)`
+            `(composer install)`
 
-        # Clone the project and install dependencies
-        `(cd #{directory}; git clone #{giturl} .)`
-        `(cd #{directory}; git checkout master)`
-        `(cd #{directory}; composer install)`
+            # Run checks
+            composer = Analysers::Composer.new directory
+            update_needed = composer.analyse
 
-        # Run checks
-        composer = Analysers::Composer.new directory
-        result = composer.analyse
-
-        # store results
-        results[giturl] = composer.analyse
+            jira.make_ticket!(project) if update_needed
+        end
     end
 end
-
-puts results
