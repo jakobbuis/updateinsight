@@ -30,7 +30,7 @@ projects.each do |giturl|
         high_issues = counts['critical'] + counts['high']
 
         # store results
-        results[name] = {
+        results[giturl] = {
             composer: composer_outdated,
             npm: npm_outdated,
             total_vulnerabilities: total_issues,
