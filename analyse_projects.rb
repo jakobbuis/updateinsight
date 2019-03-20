@@ -39,6 +39,4 @@ projects.each do |giturl|
     end
 end
 
-# Render the report
-template = ERB.new(File.read('report.html.erb'))
-File.write 'report.html', template.result(binding)
+puts results
