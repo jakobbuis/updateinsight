@@ -18,7 +18,7 @@ class Jira
         issue = @client.Issue.build
         issue.save({
             'fields' => {
-                'summary' => 'Composer update nodig',
+                'summary' => "Composer update nodig voor #{project['github']}",
                 'project' => { 'key' => project['jira']},
                 'issuetype' => { 'id' => '10102' }, # type BUG
                 'customfield_11400' => { 'value' => "Ja" }, # SLA ja/nee
