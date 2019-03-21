@@ -17,6 +17,7 @@ jira = Jira.new logger, configuration['jira']
 setup = ProjectSetup.new logger
 
 # Run all projects
+logger.info 'Setup completed, starting run'
 configuration['projects'].each do |project|
     # Use a temporary directory
     Dir.mktmpdir do |directory|
@@ -27,3 +28,4 @@ configuration['projects'].each do |project|
         end
     end
 end
+logger.info 'Run completed'
