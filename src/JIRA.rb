@@ -2,7 +2,8 @@ require 'jira-ruby'
 
 class Jira
 
-    def initialize config
+    def initialize logger, config
+        @logger = logger
         @client = JIRA::Client.new({
             auth_type: :basic,
             site: config['site'],
@@ -13,6 +14,7 @@ class Jira
     end
 
     def make_ticket! project
+        @logger.info "Creating a JIRA issue for #{project['jira']}"
         issue = @client.Issue.build
         issue.save({
             'fields' => {
@@ -23,6 +25,6 @@ class Jira
                 'labels' => ['backend'],
             },
         })
-        puts "Created issue for composer updates #{issue.key}"
+        @logger.info "Created issue #{issue.key}"
     end
 end

@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'json'
 require 'tmpdir'
+require 'logger'
 
 require_relative 'src/Analysers/Composer'
 require_relative 'src/Jira'
@@ -9,13 +10,15 @@ require_relative 'src/ProjectSetup'
 # Read the configuration
 configuration = JSON.parse(File.read('config.json'))
 
-jira = Jira.new(configuration['jira'])
-setup = ProjectSetup.new
-projects = configuration['projects']
+# Setup classes we need
+logger = Logger.new 'results.log'
+logger.level = Logger::INFO
+jira = Jira.new logger, configuration['jira']
+setup = ProjectSetup.new logger
 
-projects.each do |project|
-
-    # Create a temporary directory for us to use
+# Run all projects
+configuration['projects'].each do |project|
+    # Use a temporary directory
     Dir.mktmpdir do |directory|
         Dir.chdir directory do
             setup.install! project
