@@ -1,14 +1,15 @@
-require 'erb'
+require 'rubygems'
 require 'json'
 require 'tmpdir'
 
 require_relative 'src/Analysers/Composer'
-require_relative 'src/JIRA'
+require_relative 'src/Jira'
 
 # Read the configuration
-projects = JSON.parse(File.read('projects.json'))
+configuration = JSON.parse(File.read('config.json'))
 
-jira = JIRA.new
+jira = Jira.new(configuration['jira'])
+projects = configuration['projects']
 
 projects.each do |project|
 
@@ -16,7 +17,7 @@ projects.each do |project|
     Dir.mktmpdir do |directory|
         Dir.chdir directory do
             # Clone the project and install dependencies
-            `(git clone #{project.git} .)`
+            `(git clone #{project['git']} .)`
             `(git checkout master)`
             `(composer install)`
 
