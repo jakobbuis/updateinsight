@@ -14,7 +14,7 @@ configuration = JSON.parse(File.read('config.json'))
 logger = Logger.new 'results.log'
 logger.level = Logger::INFO
 jira = Jira.new logger, configuration['jira']
-setup = ProjectSetup.new logger
+setup = ProjectSetup.new logger, configuration['acf_pro_key']
 
 # Run all projects
 logger.info 'Setup completed, starting run'
