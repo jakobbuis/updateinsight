@@ -10,6 +10,6 @@ class ProjectSetup
         `(git checkout master 2>&1)`
 
         @logger.info "Installing composer dependencies"
-        `(composer install 2>&1)`
+        `(composer install --no-interaction 2>&1)`
     end
 end
