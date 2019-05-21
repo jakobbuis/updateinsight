@@ -6,7 +6,7 @@ class ProjectSetup
 
     def install! project
         @logger.info "Cloning project #{project['github']}"
-        `(git clone https://github.com/#{project['github']}.git . 2>&1)`
+        `(git clone git@github.com:#{project['github']}.git . 2>&1)`
         `(git checkout master 2>&1)`
 
         @logger.info "Installing composer dependencies"
