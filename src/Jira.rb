@@ -22,7 +22,7 @@ class Jira
                 'project' => { 'key' => project['jira']},
                 'issuetype' => { 'id' => '10102' }, # type BUG
                 'customfield_11400' => { 'value' => "Ja" }, # SLA ja/nee
-                'labels' => ['backend'],
+                'labels' => ['backend', 'updateinsight'],
             },
         })
         @logger.info "Created issue #{issue.key}"
