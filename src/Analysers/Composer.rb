@@ -14,11 +14,11 @@ module Analysers
 
             # Run composer analysis
             @logger.info "Analysing composer dependencies"
-            command = `composer outdated -oDm --strict -f=json`
+            command = `composer outdated -oDm -f json`
             packages = JSON.parse(command)
 
             # Create a JIRA-ticket if minor updates are required
-            update_needed = packages.installed.count > 0
+            update_needed = packages['installed'].count > 0
             @logger.info(update_needed ? "Composer updates needed" : "Composer updates not needed")
             update_needed
         end
