@@ -6,6 +6,12 @@ module Analysers
         end
 
         def analyse
+            # Check for composer file existence
+            if !Pathname.new('composer.json').exists?
+                @logger.info "Project has no composer.json file, no composer analysis performed"
+                return false
+            end
+
             @logger.info "Analysing composer dependencies"
             # Parse composer outdated output
             packages = `composer outdated -D --no-ansi`.split("\n").map do |line|
