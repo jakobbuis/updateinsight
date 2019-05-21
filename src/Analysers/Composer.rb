@@ -7,7 +7,7 @@ module Analysers
 
         def analyse
             # Check for composer file existence
-            if !Pathname.new('composer.json').exists?
+            if !File.exists?('composer.json')
                 @logger.info "Project has no composer.json file, no composer analysis performed"
                 return false
             end
