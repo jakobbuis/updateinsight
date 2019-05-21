@@ -27,8 +27,7 @@ class Jira
                 },
             })
         rescue JIRA::HTTPError => exception
-            data = JSON.parse(exception.response.body)
-            @logger.error "Cannot create issue in JIRA: #{data['code']} - #{data['message']}"
+            @logger.error "Cannot create issue in JIRA: #{exception.response.body}"
             return
         end
         @logger.info "Created issue #{issue.key}"
