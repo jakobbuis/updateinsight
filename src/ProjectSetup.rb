@@ -18,6 +18,5 @@ class ProjectSetup
 
         @logger.info "Installing composer dependencies"
         `(composer install --no-interaction 2>&1)`
-
     end
 end
