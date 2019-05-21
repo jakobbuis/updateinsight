@@ -1,7 +1,12 @@
 module Analysers
     class Composer
 
+        def initialize logger
+            @logger = logger
+        end
+
         def analyse
+            @logger.info "Analysing composer dependencies"
             # Parse composer outdated output
             packages = `composer outdated -D --no-ansi`.split("\n").map do |line|
                 line.downcase!
@@ -14,7 +19,9 @@ module Analysers
             major = packages.select { |p| p[2] === '~' }
 
             # Create a JIRA-ticket if minor updates are required
-            return (minor.count > 0 || major.count > 0)
+            updates = minor.count > 0 || major.count > 0
+            @logger.info(updates ? "Composer updates needed" : "Composer updates not needed")
+            updates
         end
     end
 end

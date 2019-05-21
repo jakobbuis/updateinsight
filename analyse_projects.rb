@@ -23,7 +23,7 @@ configuration['projects'].each do |project|
     Dir.mktmpdir do |directory|
         Dir.chdir directory do
             setup.install! project
-            update_needed = Analysers::Composer.new.analyse
+            update_needed = Analysers::Composer.new(logger).analyse
             jira.make_ticket!(project) if update_needed
         end
     end
