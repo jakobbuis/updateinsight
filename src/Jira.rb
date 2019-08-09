@@ -30,7 +30,11 @@ class Jira
 
     def increase_priority issue
         current_priority = issue.priority.id.to_i
-        new_priority = [1, current_priority - 1].max.to_s # priority IDs go from 5 - Lowest to 1 - Highest
+
+        # priority IDs go from 5 - Lowest to 1 - Highest
+        # we use 2 - High as the max priority for a required update
+        new_priority = [2, current_priority - 1].max.to_s
+
         @logger.info "Increasing the priority of #{issue.key} from #{current_priority} to #{new_priority}"
         begin
             issue.save!({
